@@ -1,0 +1,150 @@
+@let products = paginatedProducts$ | async;
+@let loading = loading$ | async;
+
+<div class="product-list">
+  <!-- Toolbar Section -->
+  <section class="product-list__toolbar">
+    <div class="search-box">
+      <input
+        type="search"
+        class="search-box__input"
+        placeholder="Search..."
+        aria-label="Buscar productos"
+        [formControl]="searchControl"
+      />
+    </div>
+    <button class="btn btn--primary" type="button" (click)="onAddProduct()">
+      Agregar
+    </button>
+  </section>
+
+  <!-- Table Section -->
+  <section class="{{containerClass}}">
+    <table class="product-table" role="table">
+      <thead class="product-table__head">
+        <tr class="product-table__row product-table__row--header">
+          <th class="product-table__header product-table__header--logo" scope="col">Logo</th>
+          <th class="product-table__header" scope="col">Nombre del producto</th>
+          <th class="product-table__header" scope="col">
+            Descripción
+            <button class="info-icon" aria-label="Información sobre descripción"></button>
+          </th>
+          <th class="product-table__header" scope="col">
+            Fecha de liberación
+            <button class="info-icon" aria-label="Información sobre fecha de liberación"></button>
+          </th>
+          <th class="product-table__header" scope="col">
+            Fecha de reestructuración
+            <button class="info-icon" aria-label="Información sobre fecha de reestructuración"></button>
+          </th>
+          <th class="product-table__header product-table__header--actions" scope="col">
+            <span class="visually-hidden">Acciones</span>
+          </th>
+        </tr>
+      </thead>
+      <tbody class="product-table__body">
+        <!-- Loading state with skeletons -->
+        @if (loading) {
+          @for (item of [1,2,3,4]; track item) {
+            <tr class="product-table__row">
+              <td class="product-table__cell product-table__cell--logo">
+                <div class="skeleton skeleton--logo"></div>
+              </td>
+              <td class="product-table__cell">
+                <div class="skeleton skeleton--text" style="width: 70%;"></div>
+              </td>
+              <td class="product-table__cell">
+                <div class="skeleton skeleton--text" style="width: 90%;"></div>
+              </td>
+              <td class="product-table__cell">
+                <div class="skeleton skeleton--text" style="width: 60%;"></div>
+              </td>
+              <td class="product-table__cell">
+                <div class="skeleton skeleton--text" style="width: 60%;"></div>
+              </td>
+              <td class="product-table__cell product-table__cell--actions">
+                <div class="skeleton skeleton--text" style="width: 1rem; height: 1rem;"></div>
+              </td>
+            </tr>
+          }
+        }
+
+        <!-- Products list -->
+        @if (!loading) {
+          @for (product of products; track product.id) {
+            <tr class="product-table__row">
+              <td class="product-table__cell product-table__cell--logo">
+                <div class="product-logo">
+                  @if (!hasImageError(product.id)) {
+                    <img
+                      [ngSrc]="product.logo"
+                      [alt]="product.name"
+                      class="product-logo__image"
+                      (error)="onImageError(product.id)"
+                      fill
+                    />
+                  } @else {
+                    <span class="product-logo__text">{{ product.name.substring(0, 2).toUpperCase() }}</span>
+                  }
+                </div>
+              </td>
+              <td class="product-table__cell">{{ product.name }}</td>
+              <td class="product-table__cell">{{ product.description }}</td>
+              <td class="product-table__cell">{{ product.date_release }}</td>
+              <td class="product-table__cell">{{ product.date_revision }}</td>
+              <td class="product-table__cell product-table__cell--actions">
+                <button
+                  class="action-menu-btn"
+                  aria-label="Menú de acciones"
+                  type="button"
+                  (click)="onActionMenuClick($event, product.id)">
+                </button>
+              </td>
+            </tr>
+          } @empty {
+            <tr class="product-table__row">
+              <td colspan="6" class="product-table__cell product-table__cell--empty">
+                No hay productos disponibles
+              </td>
+            </tr>
+          }
+        }
+      </tbody>
+    </table>
+  </section>
+
+  <!-- Pagination Section -->
+  <footer class="product-list__pagination">
+    <div class="results-info">
+      <span class="results-info__text">{{ totalFilteredProducts }} Resultados</span>
+    </div>
+    <div class="pagination">
+      <select
+        class="pagination__select"
+        aria-label="Resultados por página"
+        [formControl]="pageSizeControl">
+        <option [value]="5">5</option>
+        <option [value]="10">10</option>
+        <option [value]="20">20</option>
+      </select>
+    </div>
+  </footer>
+
+  <!-- Context Menu -->
+  <app-context-menu
+    [items]="menuItems"
+    [containerClass]="containerClass"
+    (itemClicked)="onMenuItemSelected($event)">
+  </app-context-menu>
+
+  <!-- Confirm Dialog -->
+  <app-confirm-dialog
+    [open]="showConfirmDialog"
+    [message]="'¿Estás seguro de eliminar el producto ' + selectedProductName + '?'"
+    [confirmText]="'Confirmar'"
+    [cancelText]="'Cancelar'"
+    (confirmAction)="onConfirmDelete()"
+    (cancelAction)="onCancelDelete()">
+  </app-confirm-dialog>
+</div>
+

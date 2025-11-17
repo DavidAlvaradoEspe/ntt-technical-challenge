@@ -1,0 +1,139 @@
+// Product Form - BEM Standard with Nested Notation
+
+.product-form-container {
+  width: 100%;
+  min-height: 100%;
+  background-color: var(--bg-very-light);
+  padding: 2rem 1rem;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.product-form {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  background-color: var(--bg-white);
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+  &__title {
+    margin: 0 0 0.5rem 0;
+    font-size: var(--font-size-l);
+    font-weight: 600;
+    color: var(--text-primary);
+    text-align: center;
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem 2rem;
+    margin-bottom: 2rem;
+  }
+
+  &__field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    &--full {
+      grid-column: 1 / -1;
+    }
+  }
+
+  &__label {
+    font-size: var(--font-size-s);
+    font-weight: 500;
+    color: var(--text-primary);
+  }
+
+  &__input {
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--border-light);
+    border-radius: 4px;
+    font-size: var(--font-size-s);;
+    color: var(--text-primary);
+    background-color: var(--bg-white);
+
+    &:focus {
+      outline: none;
+      border-color: var(--text-dark);
+      box-shadow: 0 0 0 3px rgba(87, 90, 98, 0.1);
+    }
+
+    &:disabled {
+      background-color: var(--bg-card);
+      color: var(--text-secondary);
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
+
+    &--error {
+      border-color: var(--bg-error);
+    }
+  }
+
+  &__error {
+    min-height: 1.25rem;
+    font-size: var(--font-size-xs);
+    color: var(--bg-error);
+  }
+
+  &__actions {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+  }
+
+  &__alert {
+    padding: 1rem;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+    font-size: var(--font-size-xs);
+
+    &--error {
+      background-color: var(--bg-error-light);
+      color: var(--text-error);
+      border: 1px solid var(--border-error);
+    }
+  }
+
+  &__loading {
+    padding: 2rem;
+    text-align: center;
+    color: var(--text-secondary);
+  }
+}
+
+// Responsive
+@media (max-width: 767px) {
+  .product-form-container {
+    padding: 1rem;
+  }
+
+  .product-form {
+    padding: 1.5rem 1rem;
+
+    &__title {
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    &__grid {
+      grid-template-columns: 1fr;
+      gap: 0.5rem 2rem;
+    }
+
+    &__actions {
+      flex-direction: column;
+    }
+
+    &__button {
+      width: 100%;
+    }
+  }
+}
+

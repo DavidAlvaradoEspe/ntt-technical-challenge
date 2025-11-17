@@ -1,0 +1,13 @@
+<ul
+  class="context-menu"
+  [class.context-menu--visible]="isVisible"
+  [style.left.px]="positionX"
+  [style.top.px]="positionY">
+  @for (item of items; track item.label) {
+    <li
+      class="context-menu__item"
+      (click)="onItemClick(item.action)">
+      <span class="context-menu__label">{{ item.label }}</span>
+    </li>
+  }
+</ul>

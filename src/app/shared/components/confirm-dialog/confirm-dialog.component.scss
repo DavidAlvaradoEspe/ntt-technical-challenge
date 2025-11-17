@@ -1,0 +1,45 @@
+.confirm-dialog {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+
+  &__modal {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--bg-modal);
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    padding: 1.5rem;
+  }
+
+  &__body {
+    margin-bottom: 1rem;
+  }
+
+  &__message {
+    margin: 0;
+    color: var(--text-primary);
+    line-height: 1.5rem;
+    font-size: var(--font-size-base);
+  }
+
+  &__divider {
+    width: 100%;
+    border: none;
+    border-top: 1px solid var(--border-light);
+    margin: 1rem 0;
+  }
+
+  &__actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+  }
+
+  &__btn {
+    flex: 1;
+  }
+}

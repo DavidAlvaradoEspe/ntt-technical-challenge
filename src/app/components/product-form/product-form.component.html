@@ -1,0 +1,147 @@
+@let loading = loading$ | async;
+
+
+<div class="product-form-container">
+  <section class="product-form">
+  <!-- Title -->
+  <h2 class="product-form__title">
+    {{isEdit ? 'Editar Producto' : 'Formulario de Registro'}}
+  </h2>
+
+  <!-- Error Alert -->
+  @if (error$ | async; as error) {
+    <div class="product-form__alert product-form__alert--error">
+      {{ error.message || 'Ha ocurrido un error. Por favor, intenta nuevamente.' }}
+    </div>
+  }
+
+  <!-- Form -->
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate class="product-form__grid">
+
+    <!-- ID Field -->
+    <div class="product-form__field">
+      <label for="id" class="product-form__label">ID</label>
+      <input
+        id="id"
+        type="text"
+        class="product-form__input"
+        [class.product-form__input--error]="hasError('id', 'required') || hasError('id', 'minlength') || hasError('id', 'maxlength') || hasError('id', 'idNotUnique')"
+        formControlName="id"
+        [readonly]="isEdit"
+      >
+      <span class="product-form__error">
+        @if (form.get('id')?.touched && form.get('id')?.errors) {
+          {{ getError('id') }}
+        }
+      </span>
+    </div>
+
+    <!-- Name Field -->
+    <div class="product-form__field">
+      <label for="name" class="product-form__label">Nombre</label>
+      <input
+        id="name"
+        type="text"
+        class="product-form__input"
+        [class.product-form__input--error]="hasError('name', 'required') || hasError('name', 'minlength') || hasError('name', 'maxlength')"
+        formControlName="name"
+      >
+      <span class="product-form__error">
+        @if (form.get('name')?.touched && form.get('name')?.errors) {
+          {{ getError('name') }}
+        }
+      </span>
+    </div>
+
+    <!-- Description Field -->
+    <div class="product-form__field">
+      <label for="description" class="product-form__label">Descripción</label>
+      <input
+        id="description"
+        type="text"
+        class="product-form__input"
+        [class.product-form__input--error]="hasError('description', 'required') || hasError('description', 'minlength') || hasError('description', 'maxlength')"
+        formControlName="description"
+      >
+      <span class="product-form__error">
+        @if (form.get('description')?.touched && form.get('description')?.errors) {
+          {{ getError('description') }}
+        }
+      </span>
+    </div>
+
+    <!-- Logo Field -->
+    <div class="product-form__field">
+      <label for="logo" class="product-form__label">Logo (URL)</label>
+      <input
+        id="logo"
+        type="text"
+        class="product-form__input"
+        [class.product-form__input--error]="hasError('logo', 'required')"
+        formControlName="logo"
+      >
+      <span class="product-form__error">
+        @if (form.get('logo')?.touched && form.get('logo')?.errors) {
+          {{ getError('logo') }}
+        }
+      </span>
+    </div>
+
+    <!-- Date Release Field -->
+    <div class="product-form__field">
+      <label for="date_release" class="product-form__label">Fecha de Liberación</label>
+      <input
+        id="date_release"
+        type="date"
+        class="product-form__input"
+        [class.product-form__input--error]="hasError('date_release', 'required') || hasError('date_release', 'dateNotTodayOrLater')"
+        formControlName="date_release"
+      >
+      <span class="product-form__error">
+        @if (form.get('date_release')?.touched && form.get('date_release')?.errors) {
+          {{ getError('date_release') }}
+        }
+      </span>
+    </div>
+
+    <!-- Date Revision Field -->
+    <div class="product-form__field">
+      <label for="date_revision" class="product-form__label">Fecha de Revisión</label>
+      <input
+        id="date_revision"
+        type="date"
+        class="product-form__input"
+        [class.product-form__input--error]="hasError('date_revision', 'required')"
+        formControlName="date_revision"
+        [readonly]="true"
+      >
+      <span class="product-form__error">
+        @if (form.get('date_revision')?.touched && form.get('date_revision')?.errors) {
+          {{ getError('date_revision') }}
+        }
+      </span>
+    </div>
+
+    <!-- Actions -->
+    <div class="product-form__field product-form__field--full">
+      <div class="product-form__actions">
+        <button
+          type="button"
+          class="btn btn--secondary"
+          (click)="onReset()"
+          [disabled]="loading"
+        >
+          Reiniciar
+        </button>
+        <button
+          type="submit"
+          class="btn btn--primary"
+          [disabled]="form.invalid || loading"
+        >
+          {{ isEdit ? 'Actualizar' : 'Enviar' }}
+        </button>
+      </div>
+    </div>
+  </form>
+</section>
+</div>
