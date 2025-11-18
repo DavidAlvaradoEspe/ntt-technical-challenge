@@ -49,8 +49,10 @@ Esta solución cumple con todos los requisitos para el perfil **Senior**, implem
 
 ## Requisitos Previos
 
-- Node.js >= 18.x
-- npm >= 9.x
+- **Node.js:** v22.19.0 (mínimo requerido: >= 18.19.1)
+- **npm:** 10.9.3 (mínimo requerido: >= 10.x)
+
+Versiones de Node.js soportadas por Angular 20: ^18.19.1, ^20.11.1 o ^22.0.0
 
 ## Instalación
 
@@ -76,35 +78,37 @@ npm run start:dev
 # El servidor estará disponible en http://localhost:3002
 ```
 
-## Desarrollo
+## Comandos Disponibles
 
 ```bash
 # Servidor de desarrollo
 npm start
-
+# Ejecuta: ng serve
 # La aplicación estará disponible en http://localhost:4200
-```
 
-## Testing
+# Build de producción
+npm run build
+# Ejecuta: ng build
+# Los artefactos se generarán en dist/
 
-```bash
+# Build en modo watch (desarrollo)
+npm run watch
+# Ejecuta: ng build --watch --configuration development
+
 # Ejecutar tests
 npm test
+# Ejecuta: jest
+
+# Ejecutar tests en modo watch
+npm run test:watch
+# Ejecuta: jest --watch
 
 # Ejecutar tests con coverage
 npm run test:coverage
-
+# Ejecuta: jest --coverage
 # Coverage actual: 88.1%
 ```
 
-## Build
-
-```bash
-# Build de producción
-npm run build
-
-# Los artefactos se generarán en dist/
-```
 
 ## Estructura del Proyecto
 
@@ -239,3 +243,5 @@ David Alvarado
 ## Licencia
 
 Proyecto desarrollado como prueba técnica para NTT Data - 2025
+
+
